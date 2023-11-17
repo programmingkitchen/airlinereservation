@@ -1,8 +1,10 @@
 package com.flightreservation.model.domain;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Composite {
-	
+
+	private Boolean ret;
 	private Flight flight;
 	private Reservation reservation;
 	private Traveler traveler;
@@ -13,54 +15,76 @@ public class Composite {
 	public Composite() {
 	}
 
-	// Getters
+	public Boolean getRet() {
+		return ret;
+	}
+
+	public void setRet(Boolean ret) {
+		this.ret = ret;
+	}
+
 	public Flight getFlight() {
 		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
 	}
 
 	public Reservation getReservation() {
 		return reservation;
 	}
 
-	public Traveler getTraveler() {
-		return traveler;
-	}
-
-	public ArrayList<Flight> getFlightList() {
-		return flightList;
-	}
-
-	public ArrayList<Reservation> getReservationList() {
-		return reservationList;
-	}
-
-	// Setters
-	public void setFlight(Flight flight) {
-		this.flight = flight;
-	}
-
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public Traveler getTraveler() {
+		return traveler;
 	}
 
 	public void setTraveler(Traveler traveler) {
 		this.traveler = traveler;
 	}
 
+	public ArrayList<Flight> getFlightList() {
+		return flightList;
+	}
+
 	public void setFlightList(ArrayList<Flight> flightList) {
 		this.flightList = flightList;
+	}
+
+	public ArrayList<Reservation> getReservationList() {
+		return reservationList;
 	}
 
 	public void setReservationList(ArrayList<Reservation> reservationList) {
 		this.reservationList = reservationList;
 	}
-	
-	// toString
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Composite composite = (Composite) o;
+		return Objects.equals(ret, composite.ret) && Objects.equals(flight, composite.flight) && Objects.equals(reservation, composite.reservation) && Objects.equals(traveler, composite.traveler) && Objects.equals(flightList, composite.flightList) && Objects.equals(reservationList, composite.reservationList);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(ret, flight, reservation, traveler, flightList, reservationList);
+	}
 
 	@Override
 	public String toString() {
-		return "Composite [flight=" + flight + ", reservation=" + reservation + ", traveler=" + traveler
-				+ ", flightList=" + flightList + ", reservationList=" + reservationList + "]";
+		return "Composite{" +
+				"ret=" + ret +
+				", flight=" + flight +
+				", reservation=" + reservation +
+				", traveler=" + traveler +
+				", flightList=" + flightList +
+				", reservationList=" + reservationList +
+				'}';
 	}
-	
 }

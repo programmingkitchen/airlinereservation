@@ -21,7 +21,7 @@ import com.flightreservation.model.services.exception.ReservationException;
  * WARNING:  follow this format exactly, no spaces anywhere. 
  * -Dprop_location:prop_location=C:\Users\rgran\Dropbox\ECLIPSE-WORKSPACE\MSSE670-AIRLINE-RESERVATION\AirlineReservation\config\application.properties
  *
- * -Dprop_location=D:\Dropbox\JAVA-MSSE670\WORKSPACE\AirlineReservation\config\application.properties
+		 * `-Dprop_location=D:\Dropbox\JAVA-MSSE670\WORKSPACE\AirlineReservation\config\application.properties`
  *
  * In IntelliJ
  * Click the 3 dots next to the arrow and the bug.
@@ -44,45 +44,6 @@ public class RunApp {
 	 * @param args
 	 */
 
-/**
-	public static void main(String[] args) {
-		
-		ServiceFactory serviceFactory = ServiceFactory.getInstance();
-		//IReservationService reservation;
-		IReservationService reservation;
-		
-		//
-		// USE THIS APPROACH OF CASTING TO AN INTERFACE
-		//
-		// Here we are casting Factory output to ILoginService, which
-		// means that loginService will only see methods declared in
-		// the interface and implemented by LoginServiceImpl
-		//
-		try {
-			//reservation = (IReservationService) serviceFactory.getService(IReservationService.NAME);
-			reservation = (IReservationService) serviceFactory.getService(IReservationService.NAME);
-			
-			List<Flight> flightList = reservation.listFlights();
-			
-			//System.out.println(flightList);
-			
-			for (Flight flight : flightList) {
-				System.out.println("Flight ID: " + flight.getId());
-				System.out.println("Origin Airport: " + flight.getOriginAirport() + "\t\tDeparture Time: " + flight.getDepartureTime());
-				System.out.println("Destination Airport: " + flight.getOriginAirport() + "\t\tArrival Time: " + flight.getArrivalTime());
-			}
-			
-			// reservation.reserveFlight(100);
-			
-		} catch (ServiceLoadException ex) {
-			ex.printStackTrace();
-		} catch (ReservationException ex) {
-			ex.printStackTrace();
-		}
-
-	}  // end main
-**/
-
 public static void main(String[] args) {
 
 	String message = "";
@@ -99,8 +60,9 @@ public static void main(String[] args) {
 	composite.setFlight(flight);
 
 	//composite.setTraveler(null);;
+	manager.performAction("BOOKRESERVATION", composite);
 
-	boolean isBooked = manager.performAction("BOOKRESERVATION", composite);
+	boolean isBooked = composite.getRet();
 
 	// Ignore the weird code in the sample code, which does the same thing as this.   It's a Java short cut.
 	if (isBooked) {
@@ -112,8 +74,14 @@ public static void main(String[] args) {
 	System.out.println(message);
 
 
+	manager.performAction("LISTFLIGHTS", composite);
+	List<Flight> flightList = composite.getFlightList();
 
-
+	for (Flight f : flightList) {
+		System.out.println("Flight ID: " + f.getId());
+		System.out.println("Origin Airport: " + f.getOriginAirport() + "\t\tDeparture Time: " + f.getDepartureTime());
+		System.out.println("Destination Airport: " + f.getOriginAirport() + "\t\tArrival Time: " + f.getArrivalTime());
+	}
 
 } // end main
 

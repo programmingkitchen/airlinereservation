@@ -1,6 +1,8 @@
 package com.flightreservation.model.business.manager;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 import com.flightreservation.model.business.exception.*;
 import com.flightreservation.model.services.factory.ServiceFactory;
 import com.flightreservation.model.services.reservationservice.*;
@@ -48,16 +50,23 @@ public class FlightReservationManager extends ManagerSuperType {
 	 * @return false if action failed true if action is successful
 	 */
 	@Override
-	public boolean performAction(String commandString, Composite composite) {
-		boolean action = false;
+	public void performAction(String commandString, Composite composite) {
+		Boolean ret = false;
+		List<Flight> flightList;
 		if (commandString.equals("BOOKRESERVATION")) {
-			action = bookReservation(IReservationService.NAME, composite);
+			ret = bookReservation(IReservationService.NAME, composite);
+			composite.setRet(ret);
 		}
+		else if (commandString.equals("LISTFLIGHTS")) {
+			flightList = getFlightList(IReservationService.NAME, composite);
+			composite.setFlightList((ArrayList)flightList);
+			ret = true;
+			composite.setRet(ret);
+		}
+
 		else {
 			 System.out.println("INFO:  Add new workflows here using here using if/else.");
 		}
-
-		return action;
 	}
 
 	/**
@@ -72,7 +81,7 @@ public class FlightReservationManager extends ManagerSuperType {
 	 *            contains the customer registration info needed
 	 *
 	 */
-	public boolean bookReservation(String commandString, Composite composite) {
+	private boolean bookReservation(String commandString, Composite composite) {
 			boolean isBooked = false;
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
@@ -91,6 +100,30 @@ public class FlightReservationManager extends ManagerSuperType {
 		}
 
 		return isBooked;
-	}// end registerCustomer
+	}// end bookReservation
+
+	/*
+	Get Flight List
+	*/
+	private List getFlightList(String commandString, Composite composite) {
+		List<Flight> flightList = null;
+
+		ServiceFactory serviceFactory = ServiceFactory.getInstance();
+		IReservationService reservationService;
+
+		try {
+			reservationService = (IReservationService) serviceFactory.getService(commandString);
+			 flightList = reservationService.listFlights();
+		} catch (ServiceLoadException e1) {
+			System.out.println("ERROR: FlightReservationManager::failed to load Reservation Service.");
+		} catch (ReservationException re) {
+			System.out.println("ERROR:  FlightReservationManager::bookReservation() failed");
+			re.printStackTrace();
+		} catch (Exception ex) {
+			System.out.println("ERROR: FlightReservationManager::Unknown error.");
+		}
+
+		return flightList;
+	}// end bookReservation
 
 }  // end class Flight Reservation Manager
