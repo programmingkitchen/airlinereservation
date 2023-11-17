@@ -131,7 +131,7 @@ public class ReservationServiceImpl implements IReservationService {
 		Flight flight1 = new Flight(100,"Atlanta","New York",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
 		Flight flight2 = new Flight(101,"New York","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
 		Flight flight3 = new Flight(200,"Atlanta","New Orleans",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
-		Flight flight4 = new Flight(200,"New Orleans","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
+		Flight flight4 = new Flight(201,"New Orleans","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
 		
 		flightList.add(flight1);
 		flightList.add(flight2);
