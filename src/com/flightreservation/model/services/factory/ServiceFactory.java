@@ -31,7 +31,6 @@ public class ServiceFactory {
 	}
 
 	private static ServiceFactory serviceFactory = new ServiceFactory();
-
 	public static ServiceFactory getInstance() {
 		return serviceFactory;
 	}
@@ -104,10 +103,11 @@ public class ServiceFactory {
 	
 	private String getImplName(String serviceName) throws Exception {
 
-		// Uncomment to troubleshoot -D.  We need \\ to escape the won
+		// Hardcode:  Uncomment to troubleshoot -D.  We need \\ to escape the backslash
 		//String propertyFileLocation="C:\\Users\\rgran\\Dropbox\\ECLIPSE-WORKSPACE\\MSSE670-AIRLINE-RESERVATION\\AirlineReservation\\config\\application.properties";
 		// String propertyFileLocation = "D:\\Dropbox\\JAVA-MSSE670\\WORKSPACE\\AirlineReservation\\config\\application.properties";
-		System.out.println("Property passed with -D: " + System.getProperty("prop_location"));
+
+		//System.out.println("Property passed with -D: " + System.getProperty("prop_location"));
 		// Use -D to get the property file location.
 		// Comment this out for troubleshooting problems with -D
 		String propertyFileLocation = System.getProperty("prop_location");

@@ -51,17 +51,30 @@ public static void main(String[] args) {
 	Boolean ret;
 	FlightReservationManager manager = FlightReservationManager.getInstance();
 
-	Traveler traveler = new Traveler(2000, "Miles", "Davis", "miles@jazz.com");
-	Flight flight = new Flight(200, "New York", "Los Angeles",
+	// Reservation #1
+
+	Traveler traveler1 = new Traveler(2001, "Miles", "Davis", "miles@jazz.com");
+	Flight flight1 = new Flight(200, "New York", "Los Angeles",
 			LocalDateTime.parse("2021-04-15T12:00"),
 			LocalDateTime.parse("2021-04-15T14:00"),
 			"Airbus A320", 150);
 
-	Composite composite = new Composite();
-	composite.setTraveler(traveler);
-	composite.setFlight(flight);
+	// Reservation #1
+	Traveler traveler2 = new Traveler(3001, "Jaco", "Pastorious", "jaco@jazz.com");
+	Flight flight2 = new Flight(300, "Miami", "Seattle",
+			LocalDateTime.parse("2022-03-15T12:00"),
+			LocalDateTime.parse("2022-03-15T14:00"),
+			"Airbus A320", 150);
 
-	//composite.setTraveler(null);;
+
+	Composite composite = new Composite();
+
+	/**
+	 * Reservation #1
+	 */
+	System.out.println();
+	composite.setTraveler(traveler1);
+	composite.setFlight(flight1);
 	isBooked = manager.performAction("BOOKRESERVATION", composite);
 
 	// Ignore the weird code in the sample code, which does the same thing as this.   It's a Java short cut.
@@ -70,10 +83,33 @@ public static void main(String[] args) {
 	} else {
 		message = "FAIL:  FlightReservationMain:: - Traveler not registered.";
 	}
-
 	System.out.println(message);
 
+	/**
+	 * Reservation #2
+	 * Add a second reservation (test the simulator database)
+	 * The bug in the simulator is that the previous reservation was not persisted.
+	 * Each time we call the manager with manager.performAction(), we get a new instance, which clears
+	 * memory.
+	 * 
+	 * Wait for the DB to fix.
+	 */
+	System.out.println();
+	composite.setTraveler(traveler2);
+	composite.setFlight(flight2);
+	isBooked = manager.performAction("BOOKRESERVATION", composite);
 
+	if (isBooked) {
+		message = "SUCCESS:  FlightReservationMain:: - Traveler resistered.";
+	} else {
+		message = "FAIL:  FlightReservationMain:: - Traveler not registered.";
+	}
+	System.out.println(message);
+
+	/**
+	 * LIST FLIGHTS
+	 */
+	System.out.println();
 	manager.performAction("LISTFLIGHTS", composite);
 	List<Flight> flightList = composite.getFlightList();
 

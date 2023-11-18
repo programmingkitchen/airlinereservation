@@ -22,36 +22,7 @@ import com.flightreservation.model.domain.Reservation;
 
 public class ReservationServiceImpl implements IReservationService {
 
-	/**
-	 * In the Week 4 solution, we are just implementing this method, but
-	 * all methods should be implemented once the first method is working. 
-	 * 
-	 */
-	@Override
-	// public ArrayList<Flight> listFlights(Composite composite) throws ReservationException {
-	public ArrayList<Flight> listFlights() throws ReservationException {
-		System.out.println("List Flights.");
-		
-		ArrayList<Flight> flightList = null;
-		
-		try {
-			flightList = getFlights();
-			
-			// We will immediately throw an exception for null as an example, but in real life, 
-			// there could be a case where "No Flights Available."  
-			if (flightList == null) {
-				throw new ReservationException("ERROR:  No flights available.");
-			}
-			
-			// For testing the general catch Exception. 
-			//flightList.get(100);
-		
-		} catch (Exception ex){
-			throw new ReservationException("ERROR:  There was a problem with the ReservationService.", ex);
-		} 
-		
-		return flightList;
-	}
+	private ArrayList<Reservation> reservationList = new ArrayList<>();
 
 	@Override
 	public ArrayList<Reservation> listReservations(Composite composite) {
@@ -65,7 +36,7 @@ public class ReservationServiceImpl implements IReservationService {
 	 */
 	@Override
 	public boolean bookReservation(Composite composite) throws ReservationException {
-		ArrayList<Reservation> reservationList = new ArrayList<>();
+		//ArrayList<Reservation> reservationList = new ArrayList<>();
 		
 		boolean isBooked = false; 
 		try {
@@ -107,48 +78,23 @@ public class ReservationServiceImpl implements IReservationService {
 		System.out.println("Cancel Flight: " + composite.getReservation().getId());
 		return false;
 	}
-	
-	/**
-	 * 
-	 * (OPTIONAL) SIMULATOR DATABASE (TEMPORARY)  USING "PRIVATE HELPER METHODS."
-	 * 
-	 * TODO This is ok for now when we are just returning lists, but we need to think about a different way to do this 
-	 * if we try to add/delete items from the collection, since the private helper methods only initialize 
-	 * and return things (no parameters).
-	 * 
-	 * This is one way to do a "simulator database" so we can actually see the application working, before 
-	 * we attach an actual database that is required for "real functionality," e.g. create, retrieve, update, delete.
-	 * Updates are very difficult without a database so we won't worry about them.  
-	 * 
-	 * At this stage, we can focus on two use cases,
-	 * (1) returning a collection with a list of things (Flights or Reservations) 
-	 * (2) add/delete of items from the one of the collections, flightList or reservationList. 
-	 *  
-	 * @return ArrayList<Flight> Flight List
-	 */
-	private ArrayList<Flight> getFlights(){
-		ArrayList<Flight> flightList = new ArrayList<>();
-		Flight flight1 = new Flight(100,"Atlanta","New York",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
-		Flight flight2 = new Flight(101,"New York","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
-		Flight flight3 = new Flight(200,"Atlanta","New Orleans",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
-		Flight flight4 = new Flight(201,"New Orleans","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
-		
-		flightList.add(flight1);
-		flightList.add(flight2);
-		flightList.add(flight3);
-		flightList.add(flight4);
-		
-		return flightList;
-		
+
+
+	private ArrayList<Reservation> addReservation(Composite composite){
+		//ArrayList<Reservation> reservationList = new ArrayList<>();
+		reservationList = getReservations();
+
+		Reservation reservation = new Reservation(3000, LocalDateTime.now(), composite.getTraveler(), composite.getFlight());
+
+		reservationList.add(reservation);
+		return reservationList;
 	}
-	
+
 	/**
 	 * A simulator for the database to be used until we get the DB.
 	 * @return ArrayList<Reservation> Reservation List
 	 */
 	private ArrayList<Reservation> getReservations(){
-		ArrayList<Reservation> reservationList = new ArrayList<>();
-		
 		Traveler traveler = new Traveler(1000, "John", "Coltrane", "trane@jazz.com");
 		Flight flight = new Flight(100,"Atlanta","New York",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
 		Reservation reservation = new Reservation(2000, LocalDateTime.now(), traveler, flight);
@@ -157,13 +103,65 @@ public class ReservationServiceImpl implements IReservationService {
 	}
 	
 	
-	private ArrayList<Reservation> addReservation(Composite composite){
-		ArrayList<Reservation> reservationList = new ArrayList<>();
-		reservationList = getReservations();
-	
-		Reservation reservation = new Reservation(3000, LocalDateTime.now(), composite.getTraveler(), composite.getFlight());
-		
-		reservationList.add(reservation);
-		return reservationList;
+
+
+	// =================================================================================================================
+	/**
+	 *  WE ARE USING THIS TO TEMPORARILY TEST LISTING OF FLIGHTS.  THIS SHOULD BE PART OF THE Flight Service (inventory).
+	 * (OPTIONAL) SIMULATOR DATABASE (TEMPORARY)  USING "PRIVATE HELPER METHODS."
+	 *
+	 * TODO This is ok for now when we are just returning lists, but we need to think about a different way to do this
+	 * if we try to add/delete items from the collection, since the private helper methods only initialize
+	 * and return things (no parameters).
+	 *
+	 * This is one way to do a "simulator database" so we can actually see the application working, before
+	 * we attach an actual database that is required for "real functionality," e.g. create, retrieve, update, delete.
+	 * Updates are very difficult without a database so we won't worry about them.
+	 *
+	 * At this stage, we can focus on two use cases,
+	 * (1) returning a collection with a list of things (Flights or Reservations)
+	 * (2) add/delete of items from the one of the collections, flightList or reservationList.
+	 *
+	 * @return ArrayList<Flight> Flight List
+	 */
+
+	private ArrayList<Flight> getFlights(){
+		ArrayList<Flight> flightList = new ArrayList<>();
+		Flight flight1 = new Flight(100,"Atlanta","New York",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
+		Flight flight2 = new Flight(101,"New York","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Boeing 737 Max",170);
+		Flight flight3 = new Flight(200,"Atlanta","New Orleans",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
+		Flight flight4 = new Flight(201,"New Orleans","Atlanta",LocalDateTime.parse("2021-04-01T12:00"),LocalDateTime.parse("2021-04-01T14:00"),"Airbus A320",150);
+
+		flightList.add(flight1);
+		flightList.add(flight2);
+		flightList.add(flight3);
+		flightList.add(flight4);
+
+		return flightList;
+
+	}
+	@Override
+	public ArrayList<Flight> listFlights() throws ReservationException {
+		System.out.println("List Flights.");
+
+		ArrayList<Flight> flightList = null;
+
+		try {
+			flightList = getFlights();
+
+			// We will immediately throw an exception for null as an example, but in real life,
+			// there could be a case where "No Flights Available."
+			if (flightList == null) {
+				throw new ReservationException("ERROR:  No flights available.");
+			}
+
+			// For testing the general catch Exception.
+			//flightList.get(100);
+
+		} catch (Exception ex){
+			throw new ReservationException("ERROR:  There was a problem with the ReservationService.", ex);
+		}
+
+		return flightList;
 	}
 }
