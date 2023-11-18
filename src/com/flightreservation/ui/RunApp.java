@@ -59,7 +59,7 @@ public static void main(String[] args) {
 			LocalDateTime.parse("2021-04-15T14:00"),
 			"Airbus A320", 150);
 
-	// Reservation #1
+	// Reservation #2
 	Traveler traveler2 = new Traveler(3001, "Jaco", "Pastorious", "jaco@jazz.com");
 	Flight flight2 = new Flight(300, "Miami", "Seattle",
 			LocalDateTime.parse("2022-03-15T12:00"),
@@ -91,7 +91,7 @@ public static void main(String[] args) {
 	 * The bug in the simulator is that the previous reservation was not persisted.
 	 * Each time we call the manager with manager.performAction(), we get a new instance, which clears
 	 * memory.
-	 * 
+	 *
 	 * Wait for the DB to fix.
 	 */
 	System.out.println();
