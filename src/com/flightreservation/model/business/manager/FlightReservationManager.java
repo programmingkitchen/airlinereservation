@@ -50,23 +50,22 @@ public class FlightReservationManager extends ManagerSuperType {
 	 * @return false if action failed true if action is successful
 	 */
 	@Override
-	public void performAction(String commandString, Composite composite) {
+	public Boolean performAction(String commandString, Composite composite) {
 		Boolean ret = false;
 		List<Flight> flightList;
 		if (commandString.equals("BOOKRESERVATION")) {
-			ret = bookReservation(IReservationService.NAME, composite);
-			composite.setRet(ret);
+			bookReservation(IReservationService.NAME, composite);
+			ret = true;
 		}
 		else if (commandString.equals("LISTFLIGHTS")) {
 			flightList = getFlightList(IReservationService.NAME, composite);
 			composite.setFlightList((ArrayList)flightList);
 			ret = true;
-			composite.setRet(ret);
 		}
-
 		else {
 			 System.out.println("INFO:  Add new workflows here using here using if/else.");
 		}
+		return ret;
 	}
 
 	/**
@@ -81,8 +80,8 @@ public class FlightReservationManager extends ManagerSuperType {
 	 *            contains the customer registration info needed
 	 *
 	 */
-	private boolean bookReservation(String commandString, Composite composite) {
-			boolean isBooked = false;
+	private Boolean bookReservation(String commandString, Composite composite) {
+			Boolean isBooked = false;
 
 		ServiceFactory serviceFactory = ServiceFactory.getInstance();
 		IReservationService reservationService;

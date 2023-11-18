@@ -47,6 +47,8 @@ public class RunApp {
 public static void main(String[] args) {
 
 	String message = "";
+	Boolean isBooked;
+	Boolean ret;
 	FlightReservationManager manager = FlightReservationManager.getInstance();
 
 	Traveler traveler = new Traveler(2000, "Miles", "Davis", "miles@jazz.com");
@@ -60,9 +62,7 @@ public static void main(String[] args) {
 	composite.setFlight(flight);
 
 	//composite.setTraveler(null);;
-	manager.performAction("BOOKRESERVATION", composite);
-
-	boolean isBooked = composite.getRet();
+	isBooked = manager.performAction("BOOKRESERVATION", composite);
 
 	// Ignore the weird code in the sample code, which does the same thing as this.   It's a Java short cut.
 	if (isBooked) {

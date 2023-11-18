@@ -44,7 +44,7 @@ public abstract class ManagerSuperType {
 		 *         true
 		 *              if action is successful
 		 */
-		public abstract void performAction(String commandString, Composite composite);
+		public abstract Boolean performAction(String commandString, Composite composite);
 		
 		
 		/**
